@@ -1,0 +1,32 @@
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get install -y -q software-properties-common && \
+    add-apt-repository -y ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y -q python3.8 && \
+    apt-get install -y -q openjdk-8-jdk && \
+    apt-get install -y -q kotlin && \
+    apt-get install -y -q sqlite3 libsqlite3-dev && \
+    apt-get install -y -q gradle && \
+    rm -rf /var/lib/apt/lists/*
+
+ENV GRADLE_VERSION=7.3.3
+RUN apt-get update && \
+    rm -f /usr/bin/gradle && \
+    apt-get install -y curl && \
+    curl -sLO https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
+    mkdir /opt/gradle && \
+    unzip -d /opt/gradle gradle-${GRADLE_VERSION}-bin.zip && \
+    rm gradle-${GRADLE_VERSION}-bin.zip && \
+    ln -s /opt/gradle/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin/gradle
+
+
+COPY HelloWorld.kt /app/
+
+WORKDIR /app
+RUN kotlinc HelloWorld.kt -include-runtime -d HelloWorld.jar
+CMD java -jar HelloWorld.jar
+
