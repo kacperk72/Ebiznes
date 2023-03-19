@@ -24,9 +24,15 @@ RUN apt-get update && \
     ln -s /opt/gradle/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin/gradle
 
 
-COPY HelloWorld.kt /app/
-
 WORKDIR /app
-RUN kotlinc HelloWorld.kt -include-runtime -d HelloWorld.jar
-CMD java -jar HelloWorld.jar
+
+COPY HelloWorld.kt /app/
+COPY HelloWorld.java /app/
+COPY build.gradle /app/
+
+# RUN kotlinc HelloWorld.kt -include-runtime -d HelloWorld.jar
+RUN gradle build
+
+CMD ["/bin/bash"]
+# CMD java -jar build/libs/app.jar com.example.HelloWorld
 
