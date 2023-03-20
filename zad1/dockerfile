@@ -13,7 +13,7 @@ RUN apt-get update && \
     apt-get install -y -q gradle && \
     rm -rf /var/lib/apt/lists/*
 
-ENV GRADLE_VERSION=7.3.3
+ENV GRADLE_VERSION=8.0.2
 RUN apt-get update && \
     rm -f /usr/bin/gradle && \
     apt-get install -y curl && \
@@ -23,8 +23,7 @@ RUN apt-get update && \
     rm gradle-${GRADLE_VERSION}-bin.zip && \
     ln -s /opt/gradle/gradle-${GRADLE_VERSION}/bin/gradle /usr/bin/gradle
 
-
-WORKDIR /app
+WORKDIR /app/
 
 COPY HelloWorld.kt /app/
 COPY HelloWorld.java /app/
@@ -34,5 +33,5 @@ COPY build.gradle /app/
 RUN gradle build
 
 CMD ["/bin/bash"]
-# CMD java -jar build/libs/app.jar com.example.HelloWorld
+# CMD java -jar build/libs/app.jar 
 

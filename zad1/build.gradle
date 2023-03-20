@@ -1,48 +1,31 @@
 plugins {
-    id 'java'
-    id 'application'
+    id("org.jetbrains.kotlin.jvm") version "1.8.20-RC"
 }
-
-mainClassName = 'HelloWorld'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20-RC"
+    implementation "org.xerial:sqlite-jdbc:3.41.0.0"
 }
+
 tasks {
     jar {
         manifest {
-            attributes "Main-Class": "HelloWorld.Main"
+            attributes "Main-Class": "HelloWorldKt"
         }
         archiveFileName = 'hello-world.jar'
         archiveVersion = '1.0'
     }
+    
 }
 
-
-// plugins {
-//     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
-// }
-
-// repositories {
-//     mavenCentral()
-// }
-
-// dependencies {
-//     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-//     implementation "org.xerial:sqlite-jdbc:3.36.0.3"
-// }
-
-// tasks {
-//     jar {
-//         manifest {
-//             attributes "Main-Class": "HelloWorldKt"
-//         }
-//         archiveFileName = 'hello-world.jar'
-//         archiveVersion = '1.0'
-//     }
-    
-// }
+sourceSets {
+    main {
+        kotlin {
+            srcDirs += '.'
+        }
+    }
+}
