@@ -33,5 +33,5 @@ COPY build.gradle /app/
 RUN gradle build
 
 CMD ["/bin/bash"]
-# CMD java -jar build/libs/app.jar 
+# CMD java -jar build/libs/hello-world.jar 
 

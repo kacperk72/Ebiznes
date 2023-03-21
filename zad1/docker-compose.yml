@@ -1,6 +1,7 @@
 version: '3'
 services:
   myservice:
-    image: zad1-app
+    image: ebiznes-zad1
+    command: java -jar build/libs/hello-world.jar 
     ports:
       - "8080:8080"

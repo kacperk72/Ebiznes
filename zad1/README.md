@@ -8,7 +8,7 @@ Sprawdzenie wersji zainstalowanych pakietów:
     gradle -version
 
 Program HelloWorld:
-    java -jar build/libs/app.jar
+    java -jar build/libs/hello-world.jar
      
 SQLite w projekcie Gradle:
     gradle -q dependencies --configuration testRuntimeClasspath
