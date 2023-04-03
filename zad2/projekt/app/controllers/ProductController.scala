@@ -1,72 +1,64 @@
+package controllers
+
 import javax.inject._
 import play.api.mvc._
-import play.api.libs.json.Json
-import scala.collection.mutable.ArrayBuffer
-
-case class Product(id: Int, name: String, description: String, price: Double)
-
-implicit val productWrites = new Writes[Product] {
-  def writes(product: Product) = Json.obj(
-    "id" -> product.id,
-    "name" -> product.name,
-    "description" -> product.description,
-    "price" -> product.price
-  )
-}
+import play.api.libs.json._
+import scala.collection.mutable.ListBuffer
 
 @Singleton
 class ProductController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+  case class Product(id: Int, name: String, description: String, price: Double)
+  implicit val productFormat = Json.format[Product]
   
-  var products = ArrayBuffer(
+  private var products = ListBuffer(
     Product(1, "Product 1", "Description of product 1", 10.0),
     Product(2, "Product 2", "Description of product 2", 20.0),
     Product(3, "Product 3", "Description of product 3", 30.0)
   )
   
   def showAllProducts() = Action { implicit request: Request[AnyContent] =>
-    val productsJson = Json.toJson(products)(Writes.seq(productWrites))
-    Ok(productsJson)
+    Ok(Json.toJson(products))
   }
-  
-  def showProductById(id: Int) = Action { implicit request: Request[AnyContent] =>
+
+  def showProductById(idStr: String) = Action { implicit request: Request[AnyContent] =>
+    val id = idStr.toInt
     val product = products.find(_.id == id)
     product match {
       case Some(p) =>
-        val productJson = Json.toJson(p)
-        Ok(productJson)
+        Ok(Json.toJson(p))
       case None =>
         NotFound("Product not found")
     }
   }
   
-  def updateProductById(id: Int) = Action(parse.json) { implicit request =>
-    val productJson = request.body
-    val product = productJson.as[Product]
-    products.indexWhere(_.id == id) match {
-      case -1 =>
-        NotFound("Product not found")
-      case i =>
-        products(i) = product.copy(id)
-        Ok("Product updated")
+ def updateProductById(idStr: String, name: String, description: String, price: String) = Action { implicit request: Request[AnyContent] =>
+    val idInt = idStr.toInt
+    val json = request.body
+    val priceInt = price.toInt
+    val product = products.find(_.id == idInt)
+    product match {
+      case Some(p) =>
+        products.update(idInt-1, Product(idInt, name, description, priceInt))
+        Ok(Json.toJson(products))
+      case None => NotFound("Product not found")
     }
   }
   
-  def deleteProductById(id: Int) = Action { implicit request =>
-    products.indexWhere(_.id == id) match {
-      case -1 =>
-        NotFound("Product not found")
-      case i =>
-        products.remove(i)
-        Ok("Product deleted")
+  def deleteProductById(idStr: String) = Action { implicit request =>
+    val id = idStr.toInt
+    val updatedProducts = products.filterNot(_.id == id)
+    if (updatedProducts.length < products.length) {
+      products = updatedProducts
+      Ok(Json.toJson(products))
+    } else {
+      NotFound("Product not found")
     }
   }
-  
-  def addProduct() = Action(parse.json) { implicit request =>
-    val productJson = request.body
-    val product = productJson.as[Product]
-    val newId = products.map(_.id).max + 1
-    val newProduct = product.copy(id = newId)
-    products += newProduct
-    Ok("Product added")
+
+  def addProduct(name: String, description: String, price: String) = Action { implicit request: Request[AnyContent] =>
+    val priceInt = price.toInt
+    val newProduct = Product(products.length + 1, name, description, priceInt)
+    products = products :+ newProduct
+    Ok(Json.toJson(products))
   }
 }

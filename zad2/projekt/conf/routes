@@ -10,6 +10,12 @@ GET     /products                   controllers.ProductController.showAllProduct
 
 GET     /products/:id               controllers.ProductController.showProductById(id)
 
+PUT     /products/update/:id/:name/:description/:price  controllers.ProductController.updateProductById(id,name,description,price)
+
+DELETE  /products/delete/:id        controllers.ProductController.deleteProductById(id)
+
+POST    /products/add/:name/:description/:price controllers.ProductController.addProduct(name,description,price)
+
 
 
 
