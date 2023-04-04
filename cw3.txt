@@ -1,6 +1,0 @@
-sbt new 
-
-ng rok - aplikacja do wystawiania aplikacji
-
-jdk 8/11
-scal 2.12/2.13
