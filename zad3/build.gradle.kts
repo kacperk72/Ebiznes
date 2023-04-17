@@ -31,5 +31,6 @@ dependencies {
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("dev.kord:kord-core:0.8.3")
+    implementation("com.jessecorbett:diskord-bot:3.0.2")
 }
 
