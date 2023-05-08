@@ -1,34 +1,29 @@
-import React, {useContext} from "react";
-import {IProduct} from "../interface";
-import ShopContext from "../contexts/ShopContext";
-import useBasket from "../hooks/useBasket";
+import React, { useEffect, useState } from 'react';
+import fetchProducts from '../api/products';
+import { IProduct } from '../interface';
 
-export interface ProductsProps extends React.ReactHTML {}
+export const Products = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
 
-export const Products = (props: ProductsProps) => {
-  const { products } = useContext(ShopContext)
-  const { basket, addProduct, removeProduct } = useBasket();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const productsData = await fetchProducts();
+      setProducts(productsData);
+      console.log(productsData);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
-      <div className="products">
-        <ul>
-          {products.map((product: IProduct) => (<li>
-            {product.name}
-            <button onClick={() => addProduct(product)}>add product to basket</button>
-          </li>))}
-        </ul>
-      </div>
-
-      <div className="basket">
-        <ul>
-          {basket.map((product: IProduct) => (<li>
-            {product.name}
-            <button onClick={() => removeProduct(product.id)}>remove product</button>
-          </li>))}
-        </ul>
-      </div>
+      {/* Wyświetlanie listy produktów */}
+      <h1>Products</h1>
+      <ul>
+        <li></li>
+      </ul>
     </div>
+  );
+};
 
-  )
-}

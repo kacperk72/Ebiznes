@@ -12,7 +12,7 @@ function useBasket() {
   }
 
   function removeProduct(id: number) {
-    const filteredProducts = basket.filter(product => product.id !== id)
+    const filteredProducts = basket.filter(product => product.ID !== id)
 
     setBasket([...filteredProducts])
   }

@@ -1,17 +1,12 @@
-import React, {useContext} from "react";
-import {IProduct} from "../interface";
-import ShopContext from "../contexts/ShopContext";
-import useBasket from "../hooks/useBasket";
+import React from 'react';
+import { IProduct } from '../interface';
+import products from '../api/products';
 
-export interface BasketProps extends React.ReactHTML {}
-
-export const Basket = (props: BasketProps) => {
-  const { products } = useContext(ShopContext)
-  const { basket, addProduct, removeProduct } = useBasket();
-
+export const Basket = () => {
   return (
     <div>
-      <div className="products">
+       <h1>Basket</h1>
+      {/* <div className="products">
         <ul>
           {products.map((product: IProduct) => (<li>
             {product.name}
@@ -27,8 +22,7 @@ export const Basket = (props: BasketProps) => {
             <button onClick={() => removeProduct(product.id)}>remove product</button>
           </li>))}
         </ul>
-      </div>
+      </div> */}
     </div>
-
-  )
-}
+  );
+};

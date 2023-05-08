@@ -1,34 +1,10 @@
-import React, {useContext} from "react";
-import {IProduct} from "../interface";
-import ShopContext from "../contexts/ShopContext";
-import useBasket from "../hooks/useBasket";
+import { IProduct } from "../interface";
 
-export interface BasketProps extends React.ReactHTML {}
-
-export const Basket = (props: BasketProps) => {
-  const { products } = useContext(ShopContext)
-  const { basket, addProduct, removeProduct } = useBasket();
-
-  return (
-    <div>
-      <div className="products">
-        <ul>
-          {products.map((product: IProduct) => (<li>
-            {product.name}
-            <button onClick={() => addProduct(product)}>add product</button>
-          </li>))}
-        </ul>
-      </div>
-
-      <div className="basket">
-        <ul>
-          {basket.map((product: IProduct) => (<li>
-            {product.name}
-            <button onClick={() => removeProduct(product.id)}>remove product</button>
-          </li>))}
-        </ul>
-      </div>
-    </div>
-
-  )
+export const fetchProducts = async (): Promise<IProduct[]> => {
+  const response = await fetch(`http://localhost:8080/products`)
+    .then(response => response.json())
+  return response
 }
+
+
+export default fetchProducts

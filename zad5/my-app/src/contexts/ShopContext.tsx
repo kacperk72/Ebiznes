@@ -6,9 +6,13 @@ const defaultValue: IShopContextState = {
   products: []
 }
 
+interface ShopContextProviderProps {
+  children: React.ReactNode;
+}
+
 export const ShopContext = React.createContext(defaultValue);
 
-export const ShopContextProvider: React.FC = ({ children }) => {
+export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ children }) => {
   const [products, setProducts] = useState<IProduct[]>([]);
 
   const providerValue: IShopContextState = {
@@ -17,7 +21,7 @@ export const ShopContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     fetchProducts()
-      .then((products: React.SetStateAction<IProduct[]>) => {
+      .then((products) => {
         console.log(products)
         setProducts(products)
       })

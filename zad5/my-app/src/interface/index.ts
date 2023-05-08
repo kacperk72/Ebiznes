@@ -1,10 +1,12 @@
 type Dispatch<A> = (value: A) => void;
 
 export interface IProduct {
-  id: number;
+  ID: number;
   name: string;
-  description: string;
-  category: number;
+  price: number;
+  CreatedAt: string;
+  DeletedAt: string;
+  UpdatedAt: string;
 }
 
 export type IShopContextState = {
