@@ -5,7 +5,7 @@ import Welcome from './components/Welcome';
 import { Products } from './components/Products';
 import {ShopContextProvider} from "./contexts/ShopContext";
 import Payments from './components/Payments';
-import { Basket } from './components/Basket';
+import Basket  from './components/Basket';
 
 function App() {
   return (

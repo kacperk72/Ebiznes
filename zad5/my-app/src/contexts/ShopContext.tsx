@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { IProduct, IShopContextState } from "../interface";
-import { fetchProducts } from "../api/products"
+import fetchProducts  from "../api/products-get"
 
-const defaultValue: IShopContextState = {
-  products: []
+interface IShopContextStateWithBasket extends IShopContextState {
+  basket: IProduct[];
+  addToBasket: (product: IProduct) => void;
+}
+
+const defaultValue: IShopContextStateWithBasket = {
+  products: [],
+  basket: [],
+  addToBasket: () => {},
 }
 
 interface ShopContextProviderProps {
@@ -14,9 +21,16 @@ export const ShopContext = React.createContext(defaultValue);
 
 export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ children }) => {
   const [products, setProducts] = useState<IProduct[]>([]);
+  const [basket, setBasket] = useState<IProduct[]>([]);
 
-  const providerValue: IShopContextState = {
+  const addToBasket = (product: IProduct) => {
+    setBasket([...basket, product]);
+  };
+
+  const providerValue: IShopContextStateWithBasket = {
     products,
+    basket,
+    addToBasket,
   }
 
   useEffect(() => {

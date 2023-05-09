@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
+import submitPayment from '../api/products-add';
 
 const Payments = () => {
-  const [paymentData, setPaymentData] = useState({});
+  const [productName, setProductName] = useState('');
+  const [productPrice, setProductPrice] = useState('');
 
-  // Wysyłanie danych płatności do serwera (zastąp URL swoim adresem API)
-  const submitPayment = () => {
-    fetch('https://example.com/api/payments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(paymentData),
-    })
-    .then(response => response.json())
-    .then(data => console.log(data));
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const paymentData = {
+      name: productName,
+      price: Number(productPrice),
+    };
+
+    submitPayment(paymentData);
   };
 
   return (
     <div>
-      {/* Formularz płatności */}
       <h1>Payments</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Product Name:
+          <input type="text" value={productName} onChange={e => setProductName(e.target.value)} />
+        </label>
+        <label>
+          Product Price:
+          <input type="number" value={productPrice} onChange={e => setProductPrice(e.target.value)} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   );
 };
