@@ -205,6 +205,34 @@ class XKomTest(unittest.TestCase):
 
         self.assertEqual(len(list_items), 12)
 
+    def test_products_prices(self):
+        self.driver.get('https://www.x-kom.pl/g-4/c/1590-smartfony-i-telefony.html')
+        self.accept_cookies()
+        time.sleep(2)
+        price1 = self.driver.find_element(By.XPATH, '//*[@id="listing-container"]/div[1]/div/div[2]/div[3]/div/div[2]/div/span[2]').text
+        price2 = self.driver.find_element(By.XPATH, '//*[@id="listing-container"]/div[2]/div/div[2]/div[3]/div/div[2]/div/span').text
+        time.sleep(2)
+
+        self.assertTrue(price1 <= price2)
+
+
+    def test_checkout_page_loads_without_logging(self):
+        self.driver.get('https://www.x-kom.pl/p/684903-monitor-led-27-xiaomi-mi-2k-gaming-monitor-27eu.html')
+        time.sleep(2)
+        self.accept_cookies()
+        time.sleep(2)
+        add_to_cart_button = self.driver.find_element(By.XPATH, '/html/body/div[1]/div[2]/div/div[1]/div[3]/div[2]/div[3]/div[2]/div/div[2]/div[2]/div/button')
+        add_to_cart_button.click()
+        time.sleep(2)
+        self.driver.get('https://www.x-kom.pl/koszyk')
+        time.sleep(2)
+        checkout_button = self.driver.find_element(By.XPATH, '//*[@id="app"]/div[2]/div[1]/div[2]/div/div[1]/div[2]/div[3]/button')
+        checkout_button.click()
+        time.sleep(2)
+
+        self.assertIn('Rejestracja', self.driver.title)
+
+
     def tearDown(self):
         self.driver.close()
 
