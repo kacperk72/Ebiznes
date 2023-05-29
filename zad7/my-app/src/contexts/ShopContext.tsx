@@ -39,6 +39,9 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ childr
         console.log(products)
         setProducts(products)
       })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
   }, []);
 
   return (
