@@ -9,12 +9,19 @@ export const Products = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const productsData = await fetchProducts();
-      setProducts(productsData);
+      try {
+        const productsData = await fetchProducts();
+        setProducts(productsData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     };
-
-    fetchData();
+  
+    fetchData().catch(error => console.error('Error:', error));
   }, []);
+  
+  
+  
 
   return (
     <div>
