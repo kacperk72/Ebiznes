@@ -17,12 +17,9 @@ export const Products = () => {
       }
     };
   
-    try {
-      fetchData();
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    fetchData().catch(error => console.error('Error:', error));
   }, []);
+  
   
   
 
