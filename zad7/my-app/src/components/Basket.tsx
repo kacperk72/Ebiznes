@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ShopContext } from '../contexts/ShopContext';
-import { IProduct } from '../interface';
 
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
@@ -38,8 +37,8 @@ const Basket = () => {
     <div style={styles.container}>
       <h1>Basket</h1>
       <ul style={styles.list}>
-        {basket.map((product, index) => (
-          <li key={index} style={styles.listItem}>
+        {basket.map((product) => (
+          <li key={product.ID} style={styles.listItem}>
             <span style={styles.product}>{product.name}</span>
             <span style={styles.price}>{product.price}</span>
           </li>
@@ -47,6 +46,7 @@ const Basket = () => {
       </ul>
     </div>
   );
+
 };
 
 export default Basket;

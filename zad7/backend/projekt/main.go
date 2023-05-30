@@ -30,11 +30,16 @@ func main() {
 
 	pc := product.NewController(db)
 
-	e.GET("/products", pc.GetAll)
-	e.POST("/products", pc.Create)
-	e.GET("/products/:id", pc.GetByID)
-	e.PUT("/products/:id", pc.Update)
-	e.DELETE("/products/:id", pc.Delete)
+	const (
+		productsRoute    = "/products"
+		productIDRoute   = "/products/:id"
+	)
+
+	e.GET(productsRoute, pc.GetAll)
+	e.POST(productsRoute, pc.Create)
+	e.GET(productIDRoute, pc.GetByID)
+	e.PUT(productIDRoute, pc.Update)
+	e.DELETE(productIDRoute, pc.Delete)
 
 	e.Start(":8080")
 }

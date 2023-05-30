@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { IProduct, IShopContextState } from "../interface";
 import fetchProducts  from "../api/products-get"
 
@@ -23,15 +23,15 @@ export const ShopContextProvider: React.FC<ShopContextProviderProps> = ({ childr
   const [products, setProducts] = useState<IProduct[]>([]);
   const [basket, setBasket] = useState<IProduct[]>([]);
 
-  const addToBasket = (product: IProduct) => {
-    setBasket([...basket, product]);
-  };
+  const addToBasket = useCallback((product: IProduct) => {
+    setBasket((prevBasket) => [...prevBasket, product]);
+  }, []);
 
-  const providerValue: IShopContextStateWithBasket = {
+  const providerValue: IShopContextStateWithBasket = useMemo(() => ({
     products,
     basket,
     addToBasket,
-  }
+  }), [products, basket, addToBasket]);
 
   useEffect(() => {
     fetchProducts()
