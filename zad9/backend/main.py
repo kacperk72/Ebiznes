@@ -1,9 +1,9 @@
 import openai
 import sys
 
-openai.api_key = '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'
+openai.api_key = 'klucz api'
 
-user_message = sys.argv[1]  # Pobierz wiadomość od użytkownika z argumentów linii poleceń
+user_message = sys.argv[1]
 
 response = openai.ChatCompletion.create(
   model="gpt-3.5-turbo",
